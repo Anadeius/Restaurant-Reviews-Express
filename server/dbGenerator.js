@@ -2,19 +2,13 @@ const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 const dbData = require('../dbData.json');
 
-const restaurantsDB = mongoose.createConnection('mongodb://localhost:27017/restaurants');
-const reviewsDB = mongoose.createConnection('mongodb://localhost:27017/reviews');
+const db = mongoose.createConnection('mongodb://localhost:27017/restaurant-reviews');
 
-restaurantsDB.on('error', console.error.bind(console, 'connection error:'));
-reviewsDB.on('error', console.error.bind(console, 'connection error:'));
-restaurantsDB.once('open', () => {
-	console.log('MongoDB connected to Restaurants DB');
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+	console.log('MongoDB connected to Restaurant Reviews DB');
 });
-reviewsDB.once('open', () => {
-	console.log('MongoDB connected to Reviews DB');
-});
-autoIncrement.initialize(restaurantsDB);
-autoIncrement.initialize(reviewsDB);
+autoIncrement.initialize(db);
 
 const restaurantSchema = mongoose.Schema({
 	name: String,
@@ -43,8 +37,8 @@ const reviewSchema = mongoose.Schema({
 restaurantSchema.plugin(autoIncrement.plugin, { model: 'Restaurant', field: 'id' });
 reviewSchema.plugin(autoIncrement.plugin, { model: 'Review', field: 'id' });
 
-const Restaurant = restaurantsDB.model('Restaurant', restaurantSchema);
-const Review = reviewsDB.model('Review', reviewSchema);
+const Restaurant = db.model('Restaurant', restaurantSchema);
+const Review = db.model('Review', reviewSchema);
 
 let restaurantData = dbData.restaurants;
 let reviewsData = dbData.reviews;
