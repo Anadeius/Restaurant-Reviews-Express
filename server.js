@@ -5,7 +5,10 @@ const cors = require('cors');
 const api_server = express();
 const port = process.env.PORT || 3000;
 
-const secret = require('./secret.json');
+const mongo = {
+	user: process.env.mongoUser,
+	pass: process.env.mongoPass
+};
 
 api_server.use(cors());
 
@@ -13,7 +16,7 @@ api_server.use(bodyParser.json());
 
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
-mongoose.connect(`mongodb+srv://${secret.mongoUser}:${secret.mongoPass}@rreviews-o1kbm.mongodb.net/restaurant-reviews?retryWrites=true`);
+mongoose.connect(`mongodb+srv://${mongo.user}:${mongo.pass}@rreviews-o1kbm.mongodb.net/restaurant-reviews?retryWrites=true`);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
