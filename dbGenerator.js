@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 const dbData = require('../dbData.json');
 
-const db = mongoose.createConnection('mongodb://localhost:27017/restaurant-reviews');
+//const db = mongoose.createConnection('mongodb://localhost:27017/restaurant-reviews');
+const db = mongoose.createConnection('mongodb+srv://rreviews:restaurantadmin@rreviews-o1kbm.mongodb.net/restaurant-reviews?retryWrites=true');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
